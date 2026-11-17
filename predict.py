@@ -81,6 +81,11 @@ def make_predictions(model, imagePath):
                 predMask = model(image).squeeze()
                 predMask = torch.sigmoid(predMask)
                 predMask = predMask.cpu().numpy()
+
+                print("Prediction min:", predMask.min())
+                print("Prediction max:", predMask.max())
+                print("Prediction mean:", predMask.mean())
+                print("Threshold:", config.THRESHOLD)
                 
                 # filter out the weak predictions and convert them to integers
                 predProb = predMask * 255

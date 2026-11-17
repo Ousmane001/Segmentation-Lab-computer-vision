@@ -4,8 +4,8 @@
 # import the necessary packages
 from model.dataset import SegmentationDataset
 # from model.network import UNet
-# from model.network import HourGlass
-from model.network import SimpleConv
+from model.network import HourGlass
+# from model.network import SimpleConv
 
 from model import config
 from torch.nn import BCEWithLogitsLoss
@@ -65,8 +65,12 @@ if __name__ == '__main__':
     testLoader = DataLoader(testDS, shuffle=False,batch_size=config.BATCH_SIZE, pin_memory=config.PIN_MEMORY,num_workers=os.cpu_count())
 
     # initialize the UNet or HourGlass model
-    model = SimpleConv((3,16),(16,1))
-    # model = HourGlass((3,16,32,64),(64,32,16,1))
+    # model = SimpleConv((3,16),(16,1))
+    # I have changed the previous value 'cause they did'nt respect the hourglass schema that the teacher provided us 
+    model = HourGlass(
+    (3, 16, 32, 64),
+    (64, 32, 16, 8)
+    )
     # model = UNet((3,16,32,64),(64,32,16,1))
     cnnet = model.to(config.DEVICE)
     print(model)
